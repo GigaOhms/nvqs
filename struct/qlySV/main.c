@@ -35,7 +35,7 @@ void Add(struct Student list[], int n) {
 	printf("Nhap ten sinh vien: ");
 	fgets(list[n].name, 100, stdin);
 	list[n].name[strlen(list[n].name) - 1] = '\0';
-	printf("Nhap diem: ");
+	 ("Nhap diem: ");
 	scanf("%f", &list[n].score);
 	while (list[n].score < 0 || list[n].score > 10) {
 		printf("khong hop le!\n");
