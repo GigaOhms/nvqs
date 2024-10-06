@@ -42,6 +42,8 @@ void rankScore(Student * stdLst, int index);
 void statisScore(Student * stdLst, float * ratioLst, int lenLst);
 void statisStd(Student * stdLst, int lenLst);
 
+void clearStd(Student * stdLst, int *lenLstAdd, int index);
+void delStd(Student * stdLst, int * lenLstAdd);
 
 int main() {
 	int lenLst;
@@ -81,6 +83,7 @@ int main() {
 			break;
 		case 4:
 			printf("Delete student information by ID\n");
+			delStd(listStd, &lenLst);
 			break;
 		case 5:
 			printf("Find information students\n");
@@ -136,9 +139,9 @@ _Bool checkValidID(char id[]) {
 
 
 int checkIdExists(Student * stdLst, char newID[], int lenLst) {
-	for (int i = 0; i < lenLst; i++) {
-		if (strncmp(stdLst[i].id, newID, MAX_ID_LEN) == 0) {
-			return i;
+	for (int indexIdExist = 0; indexIdExist < lenLst; indexIdExist++) {
+		if (strncmp(stdLst[indexIdExist].id, newID, MAX_ID_LEN) == 0) {
+			return indexIdExist;
 		}
 	}
 	return NOT_EXIST;
@@ -210,6 +213,7 @@ void resetStd(Student * stdLst, int index) {
 	stdLst[index].score = 0;
 }
 
+
 void updateInfoStd(Student * stdLst, int * lenLstAdd) {
 	char newID[10];
 	printf("ID student update: ");
@@ -222,6 +226,27 @@ void updateInfoStd(Student * stdLst, int * lenLstAdd) {
 		resetStd(stdLst, idIndex);
 		addStd(stdLst, lenLstAdd, idIndex);
 	}
+}
+
+void clearStd(Student * stdLst, int *lenLstAdd, int index) {
+	for (int i = index; i < (*lenLstAdd) - 1; i++) {
+		strcpy(stdLst[i].id, stdLst[i + 1].id);
+		strcpy(stdLst[i].name, stdLst[i + 1].name);
+		stdLst[i].score = stdLst[i + 1].score;
+		stdLst[i].rank = stdLst[i + 1].rank;
+	}
+	(*lenLstAdd)--;
+	printf("Student has been deleted!\n");
+}
+
+void delStd(Student * stdLst, int * lenLstAdd) {
+	char newID[10];
+	printf("ID student to delete: ");
+	scanf("%s", newID);
+	int idIndex = checkIdExists(stdLst, newID, *lenLstAdd);
+	if (idIndex == NOT_EXIST ) 
+		printf("ID does not exist!\n");
+	else clearStd(stdLst, lenLstAdd, idIndex);
 }
 
 
