@@ -134,16 +134,10 @@ _Bool checkValidID(char id[]) {
 	return TRUE;
 }
 
-_Bool strncomp(const char *s1, const char *s2, size_t n) {
-	for (int i = 0; i < n; i++)
-		if (s1[i] != s2[i])
-			return FALSE;
-	return TRUE;
-}
 
 int checkIdExists(Student * stdLst, char newID[], int lenLst) {
 	for (int i = 0; i < lenLst; i++) {
-		if (strncomp(stdLst[i].id, newID, MAX_ID_LEN) == TRUE) {
+		if (strncmp(stdLst[i].id, newID, MAX_ID_LEN) == 0) {
 			return i;
 		}
 	}
