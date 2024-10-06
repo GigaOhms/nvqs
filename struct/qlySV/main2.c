@@ -3,25 +3,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-void flush(int c) {
+void flush(void) {
+	int c;
 	while ((c = getchar()) != '\n' && c != EOF) {}
 }
-int c;
-
 
 typedef struct Student {
 	char name[50];
 	float score;
-	char id[50];
+	char id[10];
 	char rank;
 } Student;
 
 int loadList(Student * stdLst);
 
 
-#define TRUE	1
-#define FALSE	0
-#define NOT_EXIST (-1)
+#define TRUE		1
+#define FALSE		0
+#define NOT_EXIST 	(-1)
+#define MAX_ID_LEN 	8
 _Bool checkValidID(char id[]);
 int checkIdExists(Student * stdLst, char newID[], int lenLst);
 void addID(Student * stdLst, int index);
@@ -65,67 +65,35 @@ int main() {
 		printf("---------------------><----------------------\n");
 		printf("\nSelect a function: ");
 		scanf("%d", &selectFuntion);
-		// printf("\n");
 
 		switch (selectFuntion) {
 		case 1:
 			printf("Add a student to the list\n");
 			addStd(listStd, &lenLst, lenLst);
-			// Add(list, n);
-			// n++;
 			break;
 		case 2:
 			printf("Update student information by ID\n");
 			updateInfoStd(listStd, &lenLst);
-			// Update(list, n);
 			break;
 		case 3:
 			printf("Score analysis!\n");
 			statisStd(listStd, lenLst);
-			// Rank(list, n);
-			// Output(list, n);
 			break;
 		case 4:
 			printf("Delete student information by ID\n");
-			// char del[50];
-			// printf("Enter ID to delete: ");
-			// scanf("%s", del);
-			// if (check_del(list, n, del)) {
-				// Delete(list, n, del);
-				// n--;
-			// } else
-				// printf("Student has been deleted\n");
 			break;
 		case 5:
 			printf("Find information students\n");
-			// Rank(list, n);
-			// printf("  1 - Find by ID\n");
-			// printf("  2 - Find by name\n");
-			// printf("-- Select method: ");
-			// scanf("%d", &search);
-			// switch (search) {
-			// case 1:
-			// 	findByID(list, n);
-			// 	break;
-			// case 2:
-			// 	findByName(list, n);
-			// 	break;
-			// }
 			break;
 		case 6:
 			printf("Sort student information by score\n");
-			// Sort(list, n);
 			break;
 		case 7:
 			printf("Show student list\n");
 			printOut(listStd, lenLst);
-			// Rank(list, n);
-			// Show(list, n);
 			break;
 		case 8:
 			printf("Save list\n");
-			// Rank(list, n);
-			// writeFile(list, n);
 			break;
 		case 0:
 			printf("Exit program !!\n");
@@ -168,30 +136,44 @@ _Bool checkValidID(char id[]) {
 
 int checkIdExists(Student * stdLst, char newID[], int lenLst) {
 	for (int i = 0; i < lenLst; i++) {
-		if (strcmp(stdLst[i].id, newID) == 0)
+		if (strncmp(stdLst[i].id, newID, MAX_ID_LEN) == 0)
 			return i;
 	}
 	return NOT_EXIST;
 }
 
+// void inputStr(char * str){
+// 	char newStr[50];
+// 	flush();
+// 	fgets(newStr, 50, stdin);
+// 	newStr[strlen(newStr) - 1] = '\0';
+// 	for (int i = 0; i < strlen(newStr); i++)
+// 		str[i] = newStr[i];
+// }
+
 void addID(Student * stdLst, int index) {
+	flush();
 	printf("ID student: ");
-	scanf("%s", stdLst[index].id);
+	// scanf("%s", stdLst[index].id);
+	fgets(stdLst[index].id, 10, stdin);
+	stdLst[index].id[strlen(stdLst[index].id) - 1] = '\0';
 	while (checkValidID(stdLst[index].id) == FALSE) {
+		flush();
 		printf("ID invalid!! Re-enter: ");
 		scanf("%s", stdLst[index].id);
 	}
 	while (checkIdExists(stdLst, stdLst[index].id, index) != NOT_EXIST) {
+		flush();
 		printf("ID already exists!! Re-enter: ");
 		scanf("%s", stdLst[index].id);
 	}
 }
 
 void addName(Student * stdLst, int index) {
-	flush(c);
 	printf("Name student: ");
 	fgets(stdLst[index].name, 50, stdin);
 	stdLst[index].name[strlen(stdLst[index].name) - 1] = '\0';
+	// inputStr(stdLst[index].name);
 }
 
 void addScore(Student * stdLst, int index) {
@@ -276,7 +258,7 @@ void statisScore(Student * stdLst, float * ratioLst, int lenLst) {
 void statisStd(Student * stdLst, int lenLst) {
 	float ratioLst[6];
 	statisScore(stdLst, ratioLst, lenLst);
-	printf("Total studens: %d\n", lenLst);
+	printf("Total students: %d\n", lenLst);
 	printf("Highest score: %.2f\n", ratioLst[MAX_SCORE_INDEX]);
 	printf("Lowest score:  %.2f\n", ratioLst[MIN_SCORE_INDEX]);
 	printf("Student level A: %.1f %%\n", ratioLst[RATIO_A_INDEX]);
