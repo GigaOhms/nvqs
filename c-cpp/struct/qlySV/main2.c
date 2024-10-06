@@ -150,21 +150,19 @@ int checkIdExists(Student * stdLst, char newID[], int lenLst) {
 	return NOT_EXIST;
 }
 
-
 void addID(Student * stdLst, int lenLst, int index) {
-	// flush(c);
+	char newID[10];
 	printf("ID student: ");
-	scanf("%s", stdLst[index].id);
-	// fgets(stdLst[index].id, 10, stdin);
-	// stdLst[index].id[strlen(stdLst[index].id) - 1] = '\0';
-	while (checkValidID(stdLst[index].id) == FALSE) {
+	scanf("%s", newID);
+	while (checkValidID(newID) == FALSE) {
 		printf("ID invalid!! Re-enter: ");
-		scanf("%s", stdLst[index].id);
+		scanf("%s", newID);
 	}
-	while (checkIdExists(stdLst, stdLst[index].id, lenLst) != NOT_EXIST) {
+	while (checkIdExists(stdLst, newID, lenLst) != NOT_EXIST) {
 		printf("ID already exists!! Re-enter: ");
-		scanf("%s", stdLst[index].id);
+		scanf("%s", newID);
 	}
+	strcpy(stdLst[index].id, newID);
 }
 
 void addName(Student * stdLst, int index) {
@@ -172,7 +170,6 @@ void addName(Student * stdLst, int index) {
 	printf("Name student: ");
 	fgets(stdLst[index].name, 50, stdin);
 	stdLst[index].name[strlen(stdLst[index].name) - 1] = '\0';
-	// inputStr(stdLst[index].name);
 }
 
 void addScore(Student * stdLst, int index) {
@@ -185,7 +182,7 @@ void addScore(Student * stdLst, int index) {
 }
 
 void addStd(Student * stdLst, int * lenLstAdd, int index) {
-	addID(stdLst, *lenLstAdd, index);
+	addID(stdLst, (*lenLstAdd), index);
 	addName(stdLst, index);
 	addScore(stdLst, index);
 	rankScore(stdLst, index);
@@ -213,6 +210,12 @@ void rankScore(Student * stdLst, int index) {
 		stdLst[index].rank = 'D';
 }
 
+void resetStd(Student * stdLst, int index) {
+	stdLst[index].id[0] = '\0';
+	stdLst[index].name[0] = '\0';
+	stdLst[index].score = 0;
+}
+
 void updateInfoStd(Student * stdLst, int * lenLstAdd) {
 	char newID[10];
 	printf("ID student update: ");
@@ -221,8 +224,10 @@ void updateInfoStd(Student * stdLst, int * lenLstAdd) {
 
 	if (idIndex == NOT_EXIST ) 
 		printf("ID does not exist!\n");
-	else 
+	else {
+		resetStd(stdLst, idIndex);
 		addStd(stdLst, lenLstAdd, idIndex);
+	}
 }
 
 
