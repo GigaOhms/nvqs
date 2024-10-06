@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-void flush(void) {
-	int c;
+int c;
+void flush(int c) {
 	while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
@@ -24,7 +24,7 @@ int loadList(Student * stdLst);
 #define MAX_ID_LEN 	8
 _Bool checkValidID(char id[]);
 int checkIdExists(Student * stdLst, char newID[], int lenLst);
-void addID(Student * stdLst, int index);
+void addID(Student * stdLst, int lenLst, int index);
 void addName(Student * stdLst, int index);
 void addScore(Student * stdLst, int index);
 void addStd(Student * stdLst, int * lenLstAdd, int index);
@@ -134,42 +134,41 @@ _Bool checkValidID(char id[]) {
 	return TRUE;
 }
 
+_Bool strncomp(const char *s1, const char *s2, size_t n) {
+	for (int i = 0; i < n; i++)
+		if (s1[i] != s2[i])
+			return FALSE;
+	return TRUE;
+}
+
 int checkIdExists(Student * stdLst, char newID[], int lenLst) {
 	for (int i = 0; i < lenLst; i++) {
-		if (strncmp(stdLst[i].id, newID, MAX_ID_LEN) == 0)
+		if (strncomp(stdLst[i].id, newID, MAX_ID_LEN) == TRUE) {
 			return i;
+		}
 	}
 	return NOT_EXIST;
 }
 
-// void inputStr(char * str){
-// 	char newStr[50];
-// 	flush();
-// 	fgets(newStr, 50, stdin);
-// 	newStr[strlen(newStr) - 1] = '\0';
-// 	for (int i = 0; i < strlen(newStr); i++)
-// 		str[i] = newStr[i];
-// }
 
-void addID(Student * stdLst, int index) {
-	flush();
+void addID(Student * stdLst, int lenLst, int index) {
+	// flush(c);
 	printf("ID student: ");
-	// scanf("%s", stdLst[index].id);
-	fgets(stdLst[index].id, 10, stdin);
-	stdLst[index].id[strlen(stdLst[index].id) - 1] = '\0';
+	scanf("%s", stdLst[index].id);
+	// fgets(stdLst[index].id, 10, stdin);
+	// stdLst[index].id[strlen(stdLst[index].id) - 1] = '\0';
 	while (checkValidID(stdLst[index].id) == FALSE) {
-		flush();
 		printf("ID invalid!! Re-enter: ");
 		scanf("%s", stdLst[index].id);
 	}
-	while (checkIdExists(stdLst, stdLst[index].id, index) != NOT_EXIST) {
-		flush();
+	while (checkIdExists(stdLst, stdLst[index].id, lenLst) != NOT_EXIST) {
 		printf("ID already exists!! Re-enter: ");
 		scanf("%s", stdLst[index].id);
 	}
 }
 
 void addName(Student * stdLst, int index) {
+	flush(c);
 	printf("Name student: ");
 	fgets(stdLst[index].name, 50, stdin);
 	stdLst[index].name[strlen(stdLst[index].name) - 1] = '\0';
@@ -186,7 +185,7 @@ void addScore(Student * stdLst, int index) {
 }
 
 void addStd(Student * stdLst, int * lenLstAdd, int index) {
-	addID(stdLst, index);
+	addID(stdLst, *lenLstAdd, index);
 	addName(stdLst, index);
 	addScore(stdLst, index);
 	rankScore(stdLst, index);
