@@ -45,6 +45,12 @@ void statisStd(Student * stdLst, int lenLst);
 void clearStd(Student * stdLst, int *lenLstAdd, int index);
 void delStd(Student * stdLst, int * lenLstAdd);
 
+#define FIND_ID		1
+#define FIND_NAME	2
+int checkNameExists(Student * stdLst, char newID[], int lenLst);
+void findStdByName(Student * stdLst, int lenLst);
+void findStd(Student * stdLst, int lenLst);
+
 int main() {
 	int lenLst;
 	int selectFuntion;
@@ -87,6 +93,7 @@ int main() {
 			break;
 		case 5:
 			printf("Find information students\n");
+			findStd(listStd, lenLst);
 			break;
 		case 6:
 			printf("Sort student information by score\n");
@@ -103,7 +110,7 @@ int main() {
 			printf("Thank you for using !!\n");
 			return 0;
 		default:
-			printf("This function is not available !\n");
+			printf("This function is not available !!\n");
 			printf("Please select again.\n");
 			break;
 		}
@@ -136,7 +143,6 @@ _Bool checkValidID(char id[]) {
 			return FALSE;
 	return TRUE;
 }
-
 
 int checkIdExists(Student * stdLst, char newID[], int lenLst) {
 	for (int indexIdExist = 0; indexIdExist < lenLst; indexIdExist++) {
@@ -297,5 +303,39 @@ void findStdByID(Student * stdLst, int lenLst) {
 	char findID[10];
 	printf("ID student: ");
 	scanf("%s", findID);
-	while (checkIdExists(stdLst, findID, lenLst) != NOT_EXIST) {	
+	int indexID = checkIdExists(stdLst, findID, lenLst);
+	if (indexID == NOT_EXIST) 
+		printf("ID does not exist!\n");
+	else printStd(stdLst, indexID); 
+}
+
+int checkNameExists(Student * stdLst, char newID[], int lenLst) {
+	int len = strlen(newID) - 1;
+	printf("len = %d\n", len);
+	for (int indexName = 0; indexName < len; indexName++)
+		if (strncmp(stdLst[indexName].name, newID, len) == 0) 
+			return indexName;
+	return NOT_EXIST;
+}
+
+void findStdByName(Student * stdLst, int lenLst) {
+	char findName[50];
+	flush(c);
+	printf("Name student: ");
+	fgets(findName, 50, stdin);
+	int indexStd = checkNameExists(stdLst, findName, lenLst);
+	if (indexStd == NOT_EXIST) 
+		printf("Name does not exist!\n");
+	else printStd(stdLst, indexStd); 
+}
+
+void findStd(Student * stdLst, int lenLst) {
+	int mode;
+	printf("Find mode (1 = ID, 2 = NAME): ");
+	scanf("%d", &mode);
+	if (mode == FIND_ID) 
+		findStdByID(stdLst, lenLst);
+	else if (mode == FIND_NAME) 
+		findStdByName(stdLst, lenLst);
+	else printf("Mode not available!!");
 }
