@@ -51,6 +51,9 @@ int checkNameExists(Student * stdLst, char newID[], int lenLst);
 void findStdByName(Student * stdLst, int lenLst);
 void findStd(Student * stdLst, int lenLst);
 
+void swapStd(Student * std1, Student * std2);
+void sortByScore(Student * stdLst, int lenLst);
+
 int main() {
 	int lenLst;
 	int selectFuntion;
@@ -97,6 +100,7 @@ int main() {
 			break;
 		case 6:
 			printf("Sort student information by score\n");
+			sortByScore(listStd, lenLst);
 			break;
 		case 7:
 			printf("Show student list\n");
@@ -338,4 +342,18 @@ void findStd(Student * stdLst, int lenLst) {
 	else if (mode == FIND_NAME) 
 		findStdByName(stdLst, lenLst);
 	else printf("Mode not available!!");
+}
+
+void swapStd(Student * std1, Student * std2) {
+	Student temp = *std1;
+	*std1 = *std2;
+	*std2 = temp;
+}
+
+void sortByScore(Student * stdLst, int lenLst) {
+	for (int i = 0; i < lenLst - 1; i++)
+		for (int j = i + 1; j < lenLst; j++) 
+			if (stdLst[i].score < stdLst[j].score)
+				swapStd(&stdLst[i], &stdLst[j]);
+	printf("The list is sorted. !!\n");
 }
