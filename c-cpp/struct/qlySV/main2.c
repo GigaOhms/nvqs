@@ -16,6 +16,7 @@ typedef struct Student {
 } Student;
 
 int loadList(Student * stdLst);
+void saveList(Student * stdLst, int lenLst);
 
 
 #define TRUE		1
@@ -108,6 +109,7 @@ int main() {
 			break;
 		case 8:
 			printf("Save list\n");
+			saveList(listStd, lenLst);
 			break;
 		case 0:
 			printf("Exit program !!\n");
@@ -139,6 +141,19 @@ int loadList(Student * stdLst) {
 		fclose(f);
 	}
 	return lastStdNum;
+}
+
+void saveList(Student * stdLst, int lenLst) {
+	FILE *f;
+	f = fopen("list2.txt", "w");
+	for (int i = 0; i < lenLst; i++) {
+		fprintf(f, "ID: %s", stdLst[i].id);
+		fprintf(f, "\t\tName: %s", stdLst[i].name);
+		fprintf(f, "\t\tMarks: %.1f", stdLst[i].score);
+		fprintf(f, "\tRank: %c\n", stdLst[i].rank);
+	}
+	fclose(f);
+	printf("The list has been saved to the file list2.txt\n");
 }
 
 _Bool checkValidID(char id[]) {
@@ -357,3 +372,4 @@ void sortByScore(Student * stdLst, int lenLst) {
 				swapStd(&stdLst[i], &stdLst[j]);
 	printf("The list is sorted. !!\n");
 }
+

@@ -1,0 +1,5 @@
+ID: 19502233		Name: tran minh tan beo		Marks: 9.7	Rank: A
+ID: 19502234		Name: tran tan tai		Marks: 8.4	Rank: B
+ID: 19502235		Name: nguyen duy khang		Marks: 6.7	Rank: B
+ID: 19502231		Name: ho cong trinh		Marks: 5.8	Rank: C
+ID: 19502232		Name: quynh bup be		Marks: 4.8	Rank: D
