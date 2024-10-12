@@ -1,0 +1,3 @@
+/workspaces/nvqs/c-cpp/test/build/CMakeFiles/rebuild_cache.dir
+/workspaces/nvqs/c-cpp/test/build/CMakeFiles/edit_cache.dir
+/workspaces/nvqs/c-cpp/test/build/CMakeFiles/runTests.dir
