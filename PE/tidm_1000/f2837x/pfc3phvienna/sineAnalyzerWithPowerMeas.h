@@ -42,6 +42,7 @@ typedef struct {
 	float vaRms;				// Output: RMS VA
 	float powerFactor;			// Output: powerFactor
 	int16_t  zcd;   			// Output: Zero Cross detected
+	
 	float vSum;				// Internal : running sum for vacc_avg calculation over one sine cycle
 	float vSqrSum;      		// Internal : running sum for vacc_rms calculation over one sine cycle
 	float iSqrSum;      		// Internal : running sum for Iacc_rms calculation over one sine cycle
