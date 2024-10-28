@@ -13,6 +13,9 @@ Description: Framework for button
 /*-----------------------------------------------------------------------------*/
 /* Data type definitions */
 /*-----------------------------------------------------------------------------*/
+
+#define SYSTEMCALLBACK VOID (*fnCallback) (*void);
+
 typedef enum tagSTATE
 {
     IDLE,

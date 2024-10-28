@@ -94,7 +94,7 @@ BOOL ButtonStart(PBUTTON pBtnRegister)
     BYTE nIndex;
     /*	Register to g_pButtons to process*/
     for( nIndex = 0; nIndex < MAX_BUTTON_COUNT; nIndex++)
-    {
+    { 
         if(g_pButtons[nIndex] == NULL || g_pButtons[nIndex]->gpioPin == pBtnRegister->gpioPin)
         {
             g_pButtons[nIndex] = pBtnRegister;
