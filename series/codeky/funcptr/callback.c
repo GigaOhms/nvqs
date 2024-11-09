@@ -19,6 +19,7 @@ void download(StoreFn fn) {
 void store(char *str) {
     printf("Store: %s\n", str);
 }
+
 int main() {
     download(store);
     return 0;
