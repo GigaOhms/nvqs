@@ -50,7 +50,7 @@ coho2.bark();
 // kiểu code này gần với object-oriented (OO),                              |      
 // chúng ta có thể cấu trúc chương trình rõ ràng hơn                        |
 //                                                                          |
-//Hàm bark ban đầu được chia nhỏ thành các                                  |
+// Hàm bark ban đầu được chia nhỏ thành các                                  |
 // hàm ChihuahuaBark và HuskyBark nhỏ hơn,                                  |
 // dễ bảo trì và mở rộng hơn                                                |
 // --------------------------------------------------------------------------

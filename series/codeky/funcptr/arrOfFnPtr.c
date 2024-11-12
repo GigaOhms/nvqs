@@ -49,7 +49,8 @@ typedef void (*MakeDrinkFn)();
 MakeDrinkFn menu[3] = {
 	cancelOrder,
 	makeCafe,
-	makeMilkTea};
+	makeMilkTea
+};
 
 int main() {
 	int drink = 0;

@@ -55,61 +55,62 @@ void findStd(Student * stdLst, int lenLst);
 void swapStd(Student * std1, Student * std2);
 void sortByScore(Student * stdLst, int lenLst);
 
+void addStudent(Student * stdLst, int * lenLstAdd);
+void updateInfo(Student * stdLst, int * lenLstAdd);
+void scoreAnalysis(Student * stdLst, int * lenLstAdd);
+void deleteStudent(Student * stdLst, int * lenLstAdd);
+void findStudent(Student * stdLst, int * lenLstAdd);
+void sortStudent(Student * stdLst, int * lenLstAdd);
+void printStudent(Student * stdLst, int * lenLstAdd);
+void writeFile(Student * stdLst, int * lenLstAdd);
+typedef void (*makeSelect)();
+
 int main() {
-	int lenLst;
+	int lenList;
 	int selectFuntion;
-	Student listStd[100];
+	Student listStudent[100];
 
-	lenLst = loadList(listStd);
-
-	printf("\n==========> MENU <===========\n");
-	printf("1 - Add a student to the list\n");
-	printf("2 - Update student information by ID\n");
-	printf("3 - Score analysis\n");
-	printf("4 - Delete student information by ID\n");
-	printf("5 - Find information students\n");
-	printf("6 - Sort student information by score\n");
-	printf("7 - Show student list\n");
-	printf("8 - Save list to list3.txt\n");
-	printf("0 - Exit\n");
+	lenList = loadList(listStudent);
 
 	while (1) {
+		printf("\n---------------------> MENU <----------------\n");
+		printf("1 - Add a student to the list\n");
+		printf("2 - Update student information by ID\n");
+		printf("3 - Score analysis\n");
+		printf("4 - Delete student information by ID\n");
+		printf("5 - Find information students\n");
+		printf("6 - Sort student information by score\n");
+		printf("7 - Show student list\n");
+		printf("8 - Save list to list.txt\n");
+		printf("0 - Exit\n");
 		printf("---------------------><----------------------\n");
 		printf("\nSelect a function: ");
 		scanf("%d", &selectFuntion);
 
 		switch (selectFuntion) {
 		case 1:
-			printf("Add a student to the list\n");
-			addStd(listStd, &lenLst, lenLst);
+			addStdToLst(listStudent, &lenList);
 			break;
 		case 2:
-			printf("Update student information by ID\n");
-			updateInfoStd(listStd, &lenLst);
+			updateInfo(listStudent, &lenList);
 			break;
 		case 3:
-			printf("Score analysis!\n");
-			statisStd(listStd, lenLst);
+			scoreAnalysis(listStudent, &lenList);
 			break;
 		case 4:
-			printf("Delete student information by ID\n");
-			delStd(listStd, &lenLst);
+			deleteStudent(listStudent, &lenList);
 			break;
 		case 5:
-			printf("Find information students\n");
-			findStd(listStd, lenLst);
+			findStudent(listStudent, &lenList);
 			break;
 		case 6:
-			printf("Sort student information by score\n");
-			sortByScore(listStd, lenLst);
+			sortStudent(listStudent, &lenList);
 			break;
 		case 7:
-			printf("Show student list\n");
-			printLstStd(listStd, lenLst);
+			printStudent(listStudent, &lenList);
 			break;
 		case 8:
-			printf("Save list\n");
-			saveList(listStd, lenLst);
+			writeFile(listStudent, &lenList);
 			break;
 		case 0:
 			printf("Exit program !!\n");
@@ -123,10 +124,50 @@ int main() {
 	}
 }
 
+void addStudent(Student * stdLst, int * lenLstAdd) {
+	printf("Add a student to the list\n");
+	addStd(stdLst, lenLstAdd, *lenLstAdd);
+}
+
+void updateInfo(Student * stdLst, int * lenLstAdd) {
+	printf("Update student information by ID\n");
+	updateInfoStd(stdLst, lenLstAdd);
+}
+
+void scoreAnalysis(Student * stdLst, int * lenLstAdd) {
+	printf("Score analysis!\n");
+	statisStd(stdLst, *lenLstAdd);
+}
+
+void deleteStudent(Student * stdLst, int * lenLstAdd) {
+	printf("Delete student information by ID\n");
+	delStd(stdLst, lenLstAdd);
+}
+
+void findStudent(Student * stdLst, int * lenLstAdd) {
+	printf("Find information students\n");
+	findStd(stdLst, *lenLstAdd);
+}
+
+void sortStudent(Student * stdLst, int * lenLstAdd) {
+	printf("Sort student information by score\n");
+	sortByScore(stdLst, *lenLstAdd);
+}
+
+void printStudent(Student * stdLst, int * lenLstAdd) {
+	printf("Show student list\n");
+	printLstStd(stdLst, *lenLstAdd);
+}
+
+void writeFile(Student * stdLst, int * lenLstAdd) {
+	printf("Save list\n");
+	saveList(stdLst, *lenLstAdd);
+}
+
 int loadList(Student * stdLst) {
 	FILE *f;
 	int lastStdNum = 0;
-	f = fopen("list3.txt", "r");
+	f = fopen("list.txt", "r");
 	if (f == NULL)
 		fclose(f);
 	else {
@@ -145,7 +186,7 @@ int loadList(Student * stdLst) {
 
 void saveList(Student * stdLst, int lenLst) {
 	FILE *f;
-	f = fopen("list3.txt", "w");
+	f = fopen("list2.txt", "w");
 	for (int i = 0; i < lenLst; i++) {
 		fprintf(f, "ID: %s", stdLst[i].id);
 		fprintf(f, "\t\tName: %s", stdLst[i].name);
@@ -153,7 +194,7 @@ void saveList(Student * stdLst, int lenLst) {
 		fprintf(f, "\tRank: %c\n", stdLst[i].rank);
 	}
 	fclose(f);
-	printf("The list has been saved to the file list3.txt\n");
+	printf("The list has been saved to the file list2.txt\n");
 }
 
 _Bool checkValidID(char id[]) {
