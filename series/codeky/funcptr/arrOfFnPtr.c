@@ -58,7 +58,7 @@ int main() {
 	printf("e: Cancel\n");
 	printf("1: Cafein\n");
 	printf("2: Tà tựa\n");
-	printf("My choice: );
+	printf("My choice: ");
 	scanf("%d", &drink);
 
 	if (drink < 3)

@@ -63,11 +63,24 @@ void findStudent(Student * stdLst, int * lenLstAdd);
 void sortStudent(Student * stdLst, int * lenLstAdd);
 void printStudent(Student * stdLst, int * lenLstAdd);
 void writeFile(Student * stdLst, int * lenLstAdd);
-typedef void (*makeSelect)();
+void exitProgram(Student * stdLst, int * lenLstAdd);
+
+typedef void (*makeSelect)(Student *, int *);
+
+makeSelect menuFunction[8] = {
+	addStudent,		//	0
+	updateInfo,		//	1
+	scoreAnalysis,	//	2
+	deleteStudent,	//	3
+	findStudent,	//	4
+	sortStudent,	//	5
+	printStudent,	//	6
+	writeFile		//	7
+};
 
 int main() {
 	int lenList;
-	int selectFuntion;
+	unsigned int selectFuntion;
 	Student listStudent[100];
 
 	lenList = loadList(listStudent);
@@ -87,6 +100,13 @@ int main() {
 		printf("\nSelect a function: ");
 		scanf("%d", &selectFuntion);
 
+		if (selectFuntion < 9 && selectFuntion >= 0)
+			menuFunction[selectFuntion](listStudent, &lenList);
+		else {
+			printf("This function is not available !!\n");
+			printf("Please select again.\n");
+		}
+		/*
 		switch (selectFuntion) {
 		case 1:
 			addStdToLst(listStudent, &lenList);
@@ -115,12 +135,13 @@ int main() {
 		case 0:
 			printf("Exit program !!\n");
 			printf("Thank you for using !!\n");
-			return 0;
+			exit();
 		default:
 			printf("This function is not available !!\n");
 			printf("Please select again.\n");
 			break;
 		}
+		*/
 	}
 }
 
@@ -162,6 +183,12 @@ void printStudent(Student * stdLst, int * lenLstAdd) {
 void writeFile(Student * stdLst, int * lenLstAdd) {
 	printf("Save list\n");
 	saveList(stdLst, *lenLstAdd);
+}
+
+void exitProgram(Student * stdLst, int * lenLstAdd) {
+	printf("Exit program !!\n");
+	printf("Thank you for using !!\n");
+	exit(EXIT_SUCCESS);
 }
 
 int loadList(Student * stdLst) {
