@@ -67,15 +67,16 @@ void exitProgram(Student * stdLst, int * lenLstAdd);
 
 typedef void (*makeSelect)(Student *, int *);
 
-makeSelect menuFunction[8] = {
-	addStudent,		//	0
-	updateInfo,		//	1
-	scoreAnalysis,	//	2
-	deleteStudent,	//	3
-	findStudent,	//	4
-	sortStudent,	//	5
-	printStudent,	//	6
-	writeFile		//	7
+makeSelect menuFunction[9] = {
+	exitProgram,	//	0		
+	addStudent,		//	1
+	updateInfo,		//	2
+	scoreAnalysis,	//	3
+	deleteStudent,	//	4
+	findStudent,	//	5
+	sortStudent,	//	6
+	printStudent,	//	7
+	writeFile		//	8
 };
 
 int main() {
@@ -85,17 +86,18 @@ int main() {
 
 	lenList = loadList(listStudent);
 
+	printf("\n---------------------> MENU <----------------\n");
+	printf("1 - Add a student to the list\n");
+	printf("2 - Update student information by ID\n");
+	printf("3 - Score analysis\n");
+	printf("4 - Delete student information by ID\n");
+	printf("5 - Find information students\n");
+	printf("6 - Sort student information by score\n");
+	printf("7 - Show student list\n");
+	printf("8 - Save list to list.txt\n");
+	printf("0 - Exit\n");
+
 	while (1) {
-		printf("\n---------------------> MENU <----------------\n");
-		printf("1 - Add a student to the list\n");
-		printf("2 - Update student information by ID\n");
-		printf("3 - Score analysis\n");
-		printf("4 - Delete student information by ID\n");
-		printf("5 - Find information students\n");
-		printf("6 - Sort student information by score\n");
-		printf("7 - Show student list\n");
-		printf("8 - Save list to list.txt\n");
-		printf("0 - Exit\n");
 		printf("---------------------><----------------------\n");
 		printf("\nSelect a function: ");
 		scanf("%d", &selectFuntion);
@@ -106,42 +108,6 @@ int main() {
 			printf("This function is not available !!\n");
 			printf("Please select again.\n");
 		}
-		/*
-		switch (selectFuntion) {
-		case 1:
-			addStdToLst(listStudent, &lenList);
-			break;
-		case 2:
-			updateInfo(listStudent, &lenList);
-			break;
-		case 3:
-			scoreAnalysis(listStudent, &lenList);
-			break;
-		case 4:
-			deleteStudent(listStudent, &lenList);
-			break;
-		case 5:
-			findStudent(listStudent, &lenList);
-			break;
-		case 6:
-			sortStudent(listStudent, &lenList);
-			break;
-		case 7:
-			printStudent(listStudent, &lenList);
-			break;
-		case 8:
-			writeFile(listStudent, &lenList);
-			break;
-		case 0:
-			printf("Exit program !!\n");
-			printf("Thank you for using !!\n");
-			exit();
-		default:
-			printf("This function is not available !!\n");
-			printf("Please select again.\n");
-			break;
-		}
-		*/
 	}
 }
 
@@ -213,7 +179,7 @@ int loadList(Student * stdLst) {
 
 void saveList(Student * stdLst, int lenLst) {
 	FILE *f;
-	f = fopen("list2.txt", "w");
+	f = fopen("list3.txt", "w");
 	for (int i = 0; i < lenLst; i++) {
 		fprintf(f, "ID: %s", stdLst[i].id);
 		fprintf(f, "\t\tName: %s", stdLst[i].name);
@@ -221,7 +187,7 @@ void saveList(Student * stdLst, int lenLst) {
 		fprintf(f, "\tRank: %c\n", stdLst[i].rank);
 	}
 	fclose(f);
-	printf("The list has been saved to the file list2.txt\n");
+	printf("The list has been saved to the file list3.txt\n");
 }
 
 _Bool checkValidID(char id[]) {
@@ -309,7 +275,6 @@ void resetStd(Student * stdLst, int index) {
 	stdLst[index].score = 0;
 }
 
-
 void updateInfoStd(Student * stdLst, int * lenLstAdd) {
 	char newID[10];
 	printf("ID student update: ");
@@ -356,13 +321,13 @@ void statisScore(Student * stdLst, float * ratioLst, int lenLst) {
 void statisStd(Student * stdLst, int lenLst) {
 	float ratioLst[6];
 	statisScore(stdLst, ratioLst, lenLst);
-	printf("Total students: %d\n", lenLst);
-	printf("Highest score: %.2f\n", ratioLst[MAX_SCORE_INDEX]);
-	printf("Lowest score:  %.2f\n", ratioLst[MIN_SCORE_INDEX]);
-	printf("Student level A: %.1f %%\n", ratioLst[RATIO_A_INDEX]);
-	printf("Student level B: %.1f %%\n", ratioLst[RATIO_B_INDEX]);
-	printf("Student level C: %.1f %%\n", ratioLst[RATIO_C_INDEX]);
-	printf("Student level D: %.1f %%\n", ratioLst[RATIO_D_INDEX]);
+	printf("Total students:\t\t%d\n", lenLst);
+	printf("Highest score:\t\t%.2f\n", ratioLst[MAX_SCORE_INDEX]);
+	printf("Lowest score:\t\t%.2f\n", ratioLst[MIN_SCORE_INDEX]);
+	printf("Student level A:\t%.1f %%\n", ratioLst[RATIO_A_INDEX]);
+	printf("Student level B:\t%.1f %%\n", ratioLst[RATIO_B_INDEX]);
+	printf("Student level C:\t%.1f %%\n", ratioLst[RATIO_C_INDEX]);
+	printf("Student level D:\t%.1f %%\n", ratioLst[RATIO_D_INDEX]);
 }
 
 void clearStd(Student * stdLst, int *lenLstAdd, int index) {
@@ -440,4 +405,3 @@ void sortByScore(Student * stdLst, int lenLst) {
 				swapStd(&stdLst[i], &stdLst[j]);
 	printf("The list is sorted. !!\n");
 }
-
