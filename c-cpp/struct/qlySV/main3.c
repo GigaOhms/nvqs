@@ -15,6 +15,8 @@ typedef struct Student {
 	char rank;
 } Student;
 
+typedef void (*makeSelect)(Student *, int *);
+
 int loadList(Student * stdLst);
 void saveList(Student * stdLst, int lenLst);
 
@@ -65,10 +67,8 @@ void printStudent(Student * stdLst, int * lenLstAdd);
 void writeFile(Student * stdLst, int * lenLstAdd);
 void exitProgram(Student * stdLst, int * lenLstAdd);
 
-typedef void (*makeSelect)(Student *, int *);
-
 makeSelect menuFunction[9] = {
-	exitProgram,	//	0		
+	exitProgram,	//	0
 	addStudent,		//	1
 	updateInfo,		//	2
 	scoreAnalysis,	//	3

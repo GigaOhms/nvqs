@@ -1,3 +1,6 @@
+// https://kienltb.wordpress.com/2015/05/22/state-machine-va-ung-dung-trong-lap-trinh-nhung/
+
+
         /********************************************************************************
 Product: MSP430 FrameWork
 Module: Button
@@ -134,6 +137,11 @@ Purpose:    sweep whole g_pButtons[] and check the button event to process.
 Parameters: VOID
 Return:     VOID
 --------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------
+Ở mỗi vòng lặp, hệ thống sẽ quét mảng g_pButtons để xác định các phần tử mảng
+đã được gán với Button chưa, đồng thời, các button này có được enable hay không.
+Nếu các điều kiện này thỏa mãn sẽ thực hiện switch trạng thái Button.
+-----------------------------------------------------------------------------*/
 
 VOID ButtonProcessEvent(VOID)
 {
@@ -144,6 +152,11 @@ VOID ButtonProcessEvent(VOID)
         {
             switch(g_pButtons[nIndex]->state)
             {
+                /*-------------------------------------------------------------
+                Ở trạng thái IDE, nếu Button được ấn thì sẽ chuyển sang trạng
+                thái WAIT_BUTTON_UP ( Tương ứng trạng thái 1 trên sơ đồ)
+                và bắt đầu đếm thời gian để xác định timeout
+                -------------------------------------------------------------*/
                 case IDLE:
                 {
                     // Waiting for One pin being pressed.
@@ -154,6 +167,13 @@ VOID ButtonProcessEvent(VOID)
                     }
                     break;
                 }
+                /*-------------------------------------------------------------
+                Ở trạng thái WAIT_BUTTON_UP, nếu Button được thả ra và 
+                chưa hết thời gian time out, hệ thống sẽ chuyển sang 
+                trạng thái WAIT_CLICK_TIMEOUT (Tương ứng trạng thái 2).
+                Nếu timeout, hệ thống sẽ nhận ra đây là sự kiện Hold phím 
+                và gọi hàm xử lý tương ứng.
+                -------------------------------------------------------------*/
                 case WAIT_BUTTON_UP:
                 {
                     // waiting for One pin being released.
@@ -219,7 +239,36 @@ VOID ButtonProcessEvent(VOID)
                     break;
                 }
             }
-
         }
+    }
+}
+
+
+/*------------------------------------------------------------
+Để sử dụng thư viện trên, ta khai báo các biến button
+sau đó gán hàm xử lý sự kiện tương ứng và đưa vào mảng button.
+------------------------------------------------------------*/
+
+void onClick();
+void onDClick();
+void onHold();
+void onClick1();
+void onDClick1();
+void onHold1();
+
+
+
+int main () {
+    BUTTON btnS2, btnS1;
+    ButtonInit(&btnS2, BIT3, NULL, onClick, onDClick, onHold);
+    ButtonInit(&btnS1, BIT7, NULL, onClick1, onDClick1, onHold1);
+
+    ButtonStart(&btnS2);
+    ButtonStart(&btnS1);
+    // .....
+
+    while(TRUE) {
+        ButtonProcessEvent();
+        // ....
     }
 }

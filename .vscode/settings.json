@@ -4,5 +4,6 @@
         "random": "c",
         "function_need_to_test.h": "c",
         "vienna.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/workspaces/nvqs/c-cpp/test"
 }

@@ -1,3 +1,5 @@
+// https://kienltb.wordpress.com/2015/05/22/state-machine-va-ung-dung-trong-lap-trinh-nhung/
+
 /********************************************************************************
 Product: MSP430 FrameWork
 Module: Button
@@ -14,8 +16,17 @@ Description: Framework for button
 /* Data type definitions */
 /*-----------------------------------------------------------------------------*/
 
+/*-------------------------------------------------------------------------------
+Lưu ý, do ngôn ngữ C không hỗ trợ hướng đối tượng nên các
+phương thức sẽ được khai báo bằng các con trỏ hàm. Như ở ví dụ trên,
+SYSTEMCALLBACK là một macro định nghĩa con trỏ hàm sau:
+-------------------------------------------------------------------------------*/
 #define SYSTEMCALLBACK VOID (*fnCallback) (*void);
 
+/*-----------------------------------------------------------------------------
+Bước đầu tiên là định nghĩa các trạng thái của hệ thống. Dựa vào hình trên,
+ta định nghĩa ra các trạng thái tương ứng như sau:
+-----------------------------------------------------------------------------*/
 typedef enum tagSTATE
 {
     IDLE,
@@ -24,7 +35,11 @@ typedef enum tagSTATE
     WAIT_CLICK_TIMEOUT,
     WAIT_DCLICK_TIMEOUT
 }state;
-
+/*-----------------------------------------------------------------------------
+Đối với Button, ta tiếp cận theo hướng hướng đối tượng.
+Nếu coi Button như một đối tượng thì nó bao gồm các 
+thuộc tính và phương thức như sau:
+-----------------------------------------------------------------------------*/
 typedef struct tagButton
 {
     WORD 	nTick;			// Current tick of button.
@@ -35,9 +50,8 @@ typedef struct tagButton
     SYSTEMCALLBACK  fnCallbackClick;
     SYSTEMCALLBACK  fnCallbackDoubleClick;
     SYSTEMCALLBACK  fnCallbackHold;
+} BUTTON, *PBUTTON;
 
-
-}BUTTON, *PBUTTON;
 /*-----------------------------------------------------------------------------*/
 /* Constant definitions  */
 /*-----------------------------------------------------------------------------*/
@@ -51,8 +65,20 @@ typedef struct tagButton
 /*-----------------------------------------------------------------------------*/
 /* Global variables  */
 /*-----------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------
+Để xử lý được nhiều button, ta sẽ định nghĩa ra một mảng chứa các con trỏ hàm,
+mỗi phần tử trong hàm này sẽ trỏ đến một đối tượng Button.
+-----------------------------------------------------------------------------*/
 // Array store pointer to button
 INTERNAL PBUTTON g_pButtons[MAX_BUTTON_COUNT] = {{NULL}};
+
+/*-----------------------------------------------------------------------------
+Khi muốn sử dụng button, ta chỉ việc định nghĩa Button và
+gán vào một vị trí trong mảng trên. Mỗi vòng lặp,
+hệ thống sẽ thực hiện quét các phần tử trong mảng và lần lượt xác định
+trạng thái các button và gọi hàm callback tương ứng.
+-----------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------*/
 /* Function prototypes  */

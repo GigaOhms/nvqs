@@ -10,12 +10,14 @@ void func(MyFunc funPtr); // Callback function
 typedef void (*StoreFn)(char *str);
 void download(StoreFn fn) {
     printf("Pretend downloading...\n");
+    // invoke callback function after downloaded
+    fn("awesome!!!");
 }
 
 // callback function rất linh hoạt vì chúng ta...
 // không hard-code function nào được gọi
 
-// invoke callback function after downloaded fn("awesome!!!);
+
 void store(char *str) {
     printf("Store: %s\n", str);
 }
